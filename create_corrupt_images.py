@@ -1,8 +1,7 @@
-#!/bin/python3
 import os
-import cv2
-import random
+import shutil
 import time
+import cv2
 
 def create_corrupt_extraneous(uncorrupted_file, output_corrupted_file):
     with open(uncorrupted_file, "rb") as fr:
@@ -20,20 +19,20 @@ def create_corrupt_premature(uncorrupted_file, output_corrupted_file):
             fw.write(contents[:2*len(contents)//3])
 
 if __name__ == '__main__':
-    random.seed(time.time())
     output_folder = "corrupted"
 
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
-    create_corrupt_extraneous("images/corrupt.jpg", f"{output_folder}/corrupt.jpg")
-    create_corrupt_premature("images/cut.jpg", f"{output_folder}/cut.jpg")
+    create_corrupt_extraneous("images/corrupt.jpg", os.path.join(output_folder, "corrupt.jpg"))
+    create_corrupt_premature("images/cut.jpg", os.path.join(output_folder, "cut.jpg"))
+    shutil.copy("images/good.jpg", os.path.join(output_folder, "good.jpg"))
 
     print("Extraneous bytes:")
-    cv2.imread(f"{output_folder}/corrupt.jpg")
+    cv2.imread(os.path.join(output_folder, "corrupt.jpg"))
 
     print("\nPremature end:")
-    cv2.imread(f"{output_folder}/cut.jpg")
+    cv2.imread(os.path.join(output_folder, "cut.jpg"))
 
     print("\nNon-corrupt does not give any errors.")
     cv2.imread(f"images/good.jpg")
