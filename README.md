@@ -10,7 +10,7 @@ Tested on Ubuntu 20.04.6 LTS, GNOME version 3.36.8.
 
 ## How to run
 
-The repository includes a couple corrupt JPEG examples inside `corrupted/`. The demo script will run the checks on these images, which can be ran with: `python3 gnome_catch_std.py`.
+The repository includes a couple corrupt JPEG examples inside `corrupted/`. The demo script will run the checks on these images, which can be ran with: `python3 gnome_catch_std.py`. The script can be used as a reference for your applications.
 
 ## How it works
 
@@ -24,16 +24,16 @@ The images are read in another terminal, which will create a log file of the ent
 
 ## Why is it so complicated?
 
-OpenCV developers do not classify the silent failing as a bug, [see the rejected Pull Request](https://github.com/opencv/opencv/pull/3314). Contrary to the developers response in the thread, `cv2.imread` does not always return an empty image when the JPEG is corrupted. However, as OpenCV is open-source, the can [fix the bug yourself](https://stackoverflow.com/questions/9131992/how-can-i-catch-corrupt-jpegs-when-loading-an-image-with-imread-in-opencv) by rebuilding OpenCV with minor modifications. This repository works without rebuilding OpenCV.
+OpenCV developers do not classify the silent JPEG error as a bug, [see the rejected Pull Request](https://github.com/opencv/opencv/pull/3314). Contrary to the developers response in the thread, `cv2.imread` does not always return an empty image when the JPEG is corrupted. However, as OpenCV is open-source, you can [fix the bug yourself](https://stackoverflow.com/questions/9131992/how-can-i-catch-corrupt-jpegs-when-loading-an-image-with-imread-in-opencv) by rebuilding OpenCV with minor modifications. This repository works without rebuilding OpenCV.
 
-Piping the output to another stream does not work either, as the warning is not produced into `stdout` or `stderr`. This prevents any python solutions with changing the output stream. Additionally, piping in the terminal does not work either (`python3 read_images.py > log.txt`).
+Piping the output to another stream is not possible, as the warning is not produced into `stdout` or `stderr`. This prevents any python solutions where output stream is piped to a file. Additionally, piping in the terminal does not work either (`python3 read_images.py corrupted/ > log.txt`), as the warning still is printed terminal, and not in the file.
 
-From my initial testing, elegant solutions such as `PIL.verify` could not catch extraneous bytes. However, `PIL` can catch prematurely ended JPEGs. It is possible that there is some library that can validate JPEGs. Please let me know. This was the best solution I could come up with, next to optical character recognition. 
+From my testing, elegant solutions such as `PIL.verify` could not catch extraneous bytes. However, `PIL` can catch prematurely ended JPEGs. It is possible that there is some library that can validate JPEGs. In case that is true, please let me know. This was the best solution I could come up with next to optical character recognition. 
 
 ## Important Notes
 
-- Not intended for production.
 - Results may vary on different systems.
+- Not intended for production.
 
 ## To corrupt more images
 
