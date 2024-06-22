@@ -9,7 +9,7 @@ def check_if_session_alive(session_title):
 
 def catch_corrupt_jpeg_without_rebuilding_opencv(path_to_images, *, log_file, read_script="read_images.py", session_title="anything-is-fine"):
     cmd = f"(gnome-terminal --title='{session_title}' -- script -f {log_file} -c 'python3 {read_script} {path_to_images}') && xdotool windowminimize $(xdotool search --name '{session_title}'|head -1)"
-    subprocess.run(cmd, shell=True)
+    subprocess.run(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, shell=True)
     while check_if_session_alive(session_title):
         time.sleep(0.1)
     with open(log_file, "r") as f:

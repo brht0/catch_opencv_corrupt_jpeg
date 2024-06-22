@@ -41,5 +41,5 @@ The repository includes a program to create corrupt images. The images can be ge
 
 ## TODO
 
-- Demo program to verify that other solutions do not work (PIL, etc)
+- Demo program to verify that other solutions do not work (PIL, skimage, etc)
 - Explain the commands
